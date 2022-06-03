@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[38]:
 
 
 import requests
@@ -61,7 +61,8 @@ for num in range(0, total_pg):
         name = d['item_basic']['name']
         shopid = d['item_basic']['shopid']
         item_url = f"https://shopee.tw/product/{shopid}/{productid}" #商品網址
-        #print(f"shopid: {shopid}   productid: {productid}")
+
+        #商品名稱和網址
         print(name)
         print(item_url)
         
@@ -71,7 +72,13 @@ for num in range(0, total_pg):
         imf = re_item.json()
         #print(imf)
         
-        #每個細項名稱+價格
+        #每個細項名稱+賣場優惠卷+價格
+        for i, item in enumerate(imf['data']['shop_vouchers']):
+            if item['discount_value'] != None and item['discount_value'] > 0:
+                print(f"  第{i+1}張折價券  滿{int(item['min_spend']/100000)}  折底{int(item['discount_value']/100000)}元")
+            elif item['discount_percentage'] != None and item['discount_percentage'] > 0:
+                print(f"  第{i+1}張折價券  滿{int(item['min_spend']/100000)}  打{int(100 - item['discount_percentage'])}折")
+    
         for i, item in enumerate(imf['data']['models']):
             #過濾已經沒貨的
             if item['stock'] == 0:
