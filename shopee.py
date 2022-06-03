@@ -4,6 +4,8 @@ import json
 #url編碼
 import urllib.
 
+#aaa
+
 keyword = input("請輸入關鍵字:")
 limit = 50 #回傳數量
 max_price = 100000 #最高價格
