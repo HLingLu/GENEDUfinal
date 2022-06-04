@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[38]:
+# In[ ]:
 
 
 import requests
@@ -77,7 +77,11 @@ for num in range(0, total_pg):
             if item['discount_value'] != None and item['discount_value'] > 0:
                 print(f"  第{i+1}張折價券  滿{int(item['min_spend']/100000)}  折底{int(item['discount_value']/100000)}元")
             elif item['discount_percentage'] != None and item['discount_percentage'] > 0:
-                print(f"  第{i+1}張折價券  滿{int(item['min_spend']/100000)}  打{int(100 - item['discount_percentage'])}折")
+                print(f"  第{i+1}張折價券  滿{int(item['min_spend']/100000)}  打{int(100 - item['discount_percentage'])}折  最高折抵{int(item['discount_cap']/100000)}元")
+        
+        #組合優惠
+        if imf['data']['bundle_deal_info'] != None:
+            print(f"  組合優惠：{imf['data']['bundle_deal_info']['bundle_deal_label']}")
     
         for i, item in enumerate(imf['data']['models']):
             #過濾已經沒貨的
