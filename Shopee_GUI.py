@@ -5,7 +5,7 @@
 
 
 import requests
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 import json
 #url編碼
 import urllib
@@ -51,7 +51,7 @@ print(f"total count: {totalcount}")
 print(f"total page: {total_pg}")
 
 #對每個分頁爬蟲
-for num in range(0, total_pg):
+for num in range(0, 1):
     #print("\nPage", num)
     pg_url = f"https://shopee.tw/api/v4/search/search_items/?by=relevancy&keyword={urllib.parse.quote(keyword)}&limit=50&newest={num*50}&order=desc&page_type=search&version=2"
     #page = num + 1
@@ -108,7 +108,7 @@ for num in range(0, total_pg):
         #組合優惠
         bundle = []
         if imf['data']['bundle_deal_info'] != None:
-            bundle.append(imf['data']['bundle_deal_info']['bundle_deal_label'])
+            bundle.append(f"\t{imf['data']['bundle_deal_info']['bundle_deal_label']}")
             #print(f"  組合優惠：{imf['data']['bundle_deal_info']['bundle_deal_label']}")
             
         #商城
@@ -153,12 +153,15 @@ for num in range(0, total_pg):
                 for k in ship.keys():
                     print(f"\t{k}: 運費{ship[k]}元")
             print("其他優惠: ")
+            void = True
             if (official_shop == True):
+                void = False
                 print("\t商城優惠券")
             if (len(bundle) != 0):
-                print("\n\t".join(bundle))
-            else:
-                print("無")
+                void = False
+                print("\n".join(bundle))
+            if (void):
+                print("\t無")
 
                                        
                                        
